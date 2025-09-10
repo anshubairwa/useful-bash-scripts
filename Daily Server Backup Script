@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# ==============================
+# Daily Server Backup Script
+# ==============================
+
+# Backup source directory (change this)
+SOURCE_DIR="/var/www/html"
+
+# Backup destination (change this)
+BACKUP_DIR="/backups"
+
+# Create backup filename with date
+DATE=$(date +%F)
+BACKUP_FILE="$BACKUP_DIR/server-backup-$DATE.tar.gz"
+
+# Log file
+LOG_FILE="/var/log/server-backup.log"
+
+# Create backup directory if not exists
+mkdir -p "$BACKUP_DIR"
+
+# Start backup process
+echo "[$(date '+%F %T')] Starting backup..." >> "$LOG_FILE"
+
+tar -czf "$BACKUP_FILE" "$SOURCE_DIR" 2>>"$LOG_FILE"
+
+if [ $? -eq 0 ]; then
+    echo "[$(date '+%F %T')] Backup successful: $BACKUP_FILE" >> "$LOG_FILE"
+else
+    echo "[$(date '+%F %T')] Backup FAILED!" >> "$LOG_FILE"
+fi
+
+# Optional: Remove backups older than 7 days
+find "$BACKUP_DIR" -type f -name "*.tar.gz" -mtime +7 -exec rm {} \;
+
