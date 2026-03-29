@@ -1,1 +1,11 @@
+#!/bin/bash
 
+SOURCE="/home/user/data"
+DEST="/backup"
+DATE=$(date +%Y-%m-%d)
+
+mkdir -p $DEST
+
+tar -czvf $DEST/backup-$DATE.tar.gz $SOURCE
+
+echo "Backup completed: $DEST/backup-$DATE.tar.gz"
