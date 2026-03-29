@@ -1,0 +1,18 @@
+#!/bin/bash
+
+echo "===== System Health Report ====="
+echo "Date: $(date)"
+echo "Uptime:"
+uptime
+
+echo "CPU Usage:"
+top -bn1 | grep "Cpu(s)"
+
+echo "Memory Usage:"
+free -h
+
+echo "Disk Usage:"
+df -h
+
+echo "Top 5 Memory Consuming Processes:"
+ps aux --sort=-%mem | head -n 6
